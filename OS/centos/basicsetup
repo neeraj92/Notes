@@ -1,0 +1,57 @@
+
+Creating a bootable disk:
+	- Need to use dd command for this
+	- unetbootin will not work
+	- to find the label for usb use lsblk command
+
+Setting up drivers:
+	- Add el repos 
+		-- Reference : http://ask.xmodulo.com/enable-elrepo-repository.html
+		"""
+			Commands to run
+				
+				$ sudo rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+				$ sudo rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm 
+		"""
+
+	- Setting up nvidia drivers {Optimus drivers}
+		-- blacklist nouveau
+				--- I had already done this before installing nvidia. So not sure if this is necessary. I think bumblebee should handle this
+				--- If needed :
+					"""
+						in /etc/modprobe.d/blacklist.conf add "blacklist nouveau"
+						
+						If this is not working then in /etc/default/grub add "nouveau.modeset=0 rd.driver.blacklist=nouveau" to "GRUB_CMDLINE_LINUX" 
+						then run grub2-mkconfig{if using grub2 or corresponding to regenerate grub config}
+					"""
+		-- Install
+				--- kmod-nvidia-340xx.x86_64
+				--- nvidia-x11-drv-340xx.x86_64 
+				--- bumblebee.x86_64 // this is needed for the optimus drivers
+				--- add user to the bumblebee group 
+						"""
+						// will come into effect only on restart ?
+						sudo usermod -a -G bumblebee $USER 	
+						"""
+		-- remove /etc/X11/xorg.conf
+
+		-- Reference : https://www.centos.org/forums/viewtopic.php?t=7303
+				--- Delete the file /etc/ld.so.conf.d/nvidia.conf and run /sbin/ldconfig.
+				--- Move the directory /usr/lib64/xorg/modules/extensions/nvidia with all its contents to /usr/lib64/xorg/nvidia.
+				--- Edit the file /usr/share/applications/nvidia-settings.desktop and change the Exec line to:
+							Exec=optirun nvidia-settings -c :8.0
+
+				--- in /etc/bumblebee/bumblebee.conf make:
+							 ServerGroup=bumblebee
+ 							 Driver=nvidia
+					     KernelDriver=nvidia
+  						 Module=nvidia
+						   PMMethod=bbswitch
+  						 LibraryPath=/usr/lib64/nvidia:/usr/lib64/vdpau:/usr/lib/nvidia:/usr/lib/vdpau
+ 						   XorgModulePath=/usr/lib64/xorg/nvidia,/usr/lib64/xorg/modules
+		  
+				--- reboot
+
+				--- for dota 2 to run needed extra library 
+					Reference : https://github.com/ValveSoftware/Dota-2/issues/108
+					yum install libtxc_dxtn.x86_64
