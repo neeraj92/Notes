@@ -1,0 +1,27 @@
+# Installing gcc from source 
+# [1]Reference : https://www.vultr.com/docs/how-to-install-gcc-on-centos-6 // gives installation details for all the languages
+# [2]Reference : https://gcc.gnu.org/wiki/InstallingGCC
+	-- Pre requisite -> base g++ compiler, svn, flex {fast lexical analyser}
+	-- Check the projects available from svn repo of gcc:
+		--- svn ls svn://gcc.gnu.org/svn/gcc/tags | grep gcc | grep release
+	
+	-- Checkout the code into desired folder :
+		--- svn co svn://gcc.gnu.org/svn/gcc/tags/gcc_5_1_0_release/
+	
+	-- Install pre-requisites using the script available :
+		--- ./contrib/download_prerequisites
+	
+	-- configure the project : 
+		For options refer : https://gcc.gnu.org/install/configure.html
+		"""
+			From [2] 
+			First, we highly recommend that GCC be built into a separate directory from the sources which does not reside within the source tree. This is how we generally build GCC; building where srcdir == objdir should still work, but doesn't get extensive testing; building where objdir is a subdirectory of srcdir is unsupported.
+		"""
+		--- mkdir objdir
+		--- srcdir/configure  
+		--- use "--enable-languages=c,c++,fortran,go" for chosing languages needed
+	
+	-- make project :
+		--- If you have not installed flex then build breaks {not warned in configure script}. then run make distclean and then configure again
+	
+	-- use sudo make install to install the compiler. 

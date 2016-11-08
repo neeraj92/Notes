@@ -1,0 +1,30 @@
+# Setting up connection to multiple servers when working
+# Earlier used to create a folder with scripts using sshpass {really bad if someone has access to the machine -- exposes all password}
+	
+	-- Overview :
+		"""
+			Create ssh keys {if needed use different keys for different services like git, servers etc}
+			Set up the ssh config 
+			copy the keys
+		"""
+	
+	-- Steps : 
+		--- Create ssh keys : 
+			ssh-keygen -t rsa
+			
+			Remember the passphrase used for generating the sshkeys. OS will ask permission to use the key. 
+			We can create multiple key pairs by specifying the path
+		
+		--- Set up ssh config : 
+			Reference : http://nerderati.com/2011/03/17/simplify-your-life-with-an-ssh-config-file/
+			
+			Some important options : 
+			Host <name of the server>
+			  HostName <ip/url>
+			  Port <22 by default / or other ports given generally for obfuscation>
+			  User <username in the server>
+  			IdentityFile <path to the private key generated from ssh-keygen>
+				ProxyCommand <command to be run when ssh is run. Used for port forwarding etc>
+		
+		--- Copy the ssh keys : 
+			ssh-copy-id -i <path to the public key correspinding to the private key in config>	<name of the server as provided in config>	
