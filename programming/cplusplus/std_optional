@@ -1,0 +1,34 @@
+-- boost::optional is a feature that enables you to return from a search algorithm without having to return bool and pass a reference/ return a tuple <bool, retType>
+-- Older ways:
+		--- bool find (T &ret)
+				{
+					if (found)
+						ret = foundObj
+						return true
+					return false
+				}
+
+		--- <bool, T> find ()
+				{
+					if (found)
+						return <true, foundObj>
+					return <false, dummy>
+				}
+
+
+-- With boost optional we can do : 
+		--- boost::optional <T> find ()
+				{
+					if (found)
+						return foundObj
+					return {}
+				}
+
+
+				if (find () != boost::none) // (auto res = find ()) -> from documentation this will result in true if boost::optional has a value
+				{
+
+				}
+
+-- c++ standard has included this in c++ 17 
+	--- reference : http://en.cppreference.com/w/cpp/utility/optional
