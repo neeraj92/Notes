@@ -8,14 +8,19 @@ au FileType c,cpp setlocal tabstop=8
 au FileType c,cpp setlocal softtabstop=4
 au FileType c,cpp setlocal expandtab
 
+set shiftwidth=2
+set tabstop=2
+set softtabstop=2
+set smartindent
 
 set wildmode=longest:list " list filename when tabbed instead of listing one at a time
 
-" Ctags. For recursive searching the directory upwards for tsgs file
+" Ctags
 set tags=./tags;
 
+" Resizing on splits
 nmap - :res<CR>:vertical res<CR>$
-nmap = <C-W>=
+nmap _ <C-W>=
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -30,6 +35,24 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 " Plugin for c/c++ syntax coloring
 Plugin 'octol/vim-cpp-enhanced-highlight'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'tpope/vim-fugitive'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
+
+
+" syntastic test 
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+
+let g:syntastic_c_compiler_options = "-std=gnu99"
+let g:syntastic_c_check_header = 1
+
+let g:syntastic_cpp_compiler_options = "-std=c++0x"
