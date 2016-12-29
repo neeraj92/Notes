@@ -1,0 +1,7 @@
+-- Recursion in metaprogramming using variadic templates
+	--- template <int dummy, typename T, typename Rest...>
+			handle ()
+			{
+				handleSpecifict (T)
+				handle (dummy, Rest...)
+			}

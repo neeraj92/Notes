@@ -3,5 +3,27 @@
 		--- If we add regex to ~/.config/git/ignore then all files that match the regex will not be tracked in git
 	
 	-- Amend : 
-		--- For commits that missed a file or something we can use git commit --amend to avoid having 2 different commits
+		--- For commits that missed a file or something we can use "git commit --amend" to avoid having 2 different commits
 		--- This doesnt work if you are making a change to the same place, like typo correction. Doing so will result in a merge conflict
+
+	-- Squashing : 
+		--- Reference : http://stackoverflow.com/questions/6934752/combining-multiple-commits-before-pushing-in-git
+		--- When having multiple commits for a single task if all of the commits need not be pushed then all of them can be squashed and made into a single commit.
+		--- For this if you have multiple local commits that has not been pushed then : 
+				
+				git rebase -i <remote>/<branch_name>  // remote is usually origin unless configured.
+																							// -i will give an interactive output
+
+				this command will open an editor with the output something like
+
+					pick 16b5fcc Code in, tests not passing
+					pick c964dea Getting closer
+					pick 06cf8ee Something changed
+
+				change it to 
+					
+					pick 16b5fcc Code in, tests not passing
+					squash c964dea Getting closer
+					squash 06cf8ee Something changed
+				
+				save and exit the editor. Another editor will open for the commit message

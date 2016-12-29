@@ -1,0 +1,4 @@
+-- No need for extra notes. Reference gives a good explanation : 
+	--- http://eli.thegreenplace.net/2014/perfect-forwarding-and-universal-references-in-c/
+
+	--- TODO : document how std::forward works internally. 
